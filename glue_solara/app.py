@@ -99,12 +99,12 @@ class JupyterApplicationWithXR(gj.JupyterApplication):
 # logging.basicConfig(level="INFO", force=True)
 # logging.getLogger("glue").setLevel("DEBUG")
 
-if not Path("w5.fits").exists():
-    require_data("Astronomy/W5/w5.fits")
-if not Path("w5_psc.csv").exists():
-    require_data("Astronomy/W5/w5_psc.csv")
-if not Path("boston_planes_6h.csv").exists():
-    require_data("Planes/boston_planes_6h.csv")
+# if not Path("w5.fits").exists():
+#     require_data("Astronomy/W5/w5.fits")
+# if not Path("w5_psc.csv").exists():
+#     require_data("Astronomy/W5/w5_psc.csv")
+# if not Path("boston_planes_6h.csv").exists():
+#     require_data("Planes/boston_planes_6h.csv")
 
 main_color = "#d0413e"
 nice_colors = [

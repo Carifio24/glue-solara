@@ -171,7 +171,7 @@ def GlueApp(app: gj.JupyterApplication):
     requested_viewer_for_data_index = solara.use_reactive(None)
     requested_viewer_typename = solara.use_reactive("Scatter")
 
-    view_type = solara.use_reactive("tabs")  # tabs, grid, mdi
+    view_type = solara.use_reactive("mdi")  # tabs, grid, mdi
     mdi_layouts: Reactive[List[MdiWindow]] = solara.use_reactive([])
     grid_layout: Reactive[List[Dict]] = solara.use_reactive([])
     mdi_header_size_index = solara.use_reactive(2)

@@ -6,7 +6,6 @@
       height: 100%;
       max-height: 100%;
       max-width: 100%;
-      position: relative;
       overflow: hidden;
     "
     @mouseup="mouseup"

@@ -177,15 +177,20 @@ def GlueApp(app: gj.JupyterApplication):
         return {"title": title, "width": 800, "height": 600}
 
     def make_grid_layout(viewer_index):
-        return {"h": 18, "i": str(viewer_index), "moved": False, "w": 12, "x": 0, "y": 12 * viewer_index}
+        return {
+            "h": 18,
+            "i": str(viewer_index),
+            "moved": False,
+            "w": 12,
+            "x": 0,
+            "y": 12 * viewer_index,
+        }
 
     view_type = solara.use_reactive("tabs")  # tabs, grid, mdi
-    mdi_layouts = solara.use_reactive([
-        make_mdi_layout(viewer) for viewer in app.viewers
-    ])
-    grid_layout = solara.use_reactive([
-        make_grid_layout(index) for index in range(len(app.viewers))
-    ])
+    mdi_layouts = solara.use_reactive([make_mdi_layout(viewer) for viewer in app.viewers])
+    grid_layout = solara.use_reactive(
+        [make_grid_layout(index) for index in range(len(app.viewers))]
+    )
     mdi_header_size_index = solara.use_reactive(2)
 
     def add_data_viewer(type: str, data: glue.core.Data):
@@ -203,14 +208,8 @@ def GlueApp(app: gj.JupyterApplication):
             # NOTE: some viewers should set x_att or have other checks which this skips
             app.new_data_viewer(viewer_cls, data=data, state=viewer_state_obj, show=False)
         new_viewer_index = len(app.viewers) - 1
-        grid_layout.value = [
-            *grid_layout.value,
-            make_grid_layout(len(app.viewers)-1)
-        ]
-        mdi_layouts.value = [
-            *mdi_layouts.value,
-            make_mdi_layout(app.viewers[-1])
-        ]
+        grid_layout.value = [*grid_layout.value, make_grid_layout(len(app.viewers) - 1)]
+        mdi_layouts.value = [*mdi_layouts.value, make_mdi_layout(app.viewers[-1])]
         viewer_index.set(new_viewer_index)
 
     def request_viewer_for(data: glue.core.Data):

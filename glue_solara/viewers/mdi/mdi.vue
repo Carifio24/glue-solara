@@ -2,12 +2,7 @@
   <div
     ref="main"
     @mousemove="(e) => move(e)"
-    style="
-      height: 100%;
-      max-height: 100%;
-      max-width: 100%;
-      overflow: hidden;
-    "
+    style="height: 100%; max-height: 100%; max-width: 100%; overflow: hidden"
     @mouseup="mouseup"
   >
     <div

@@ -171,9 +171,21 @@ def GlueApp(app: gj.JupyterApplication):
     requested_viewer_for_data_index = solara.use_reactive(None)
     requested_viewer_typename = solara.use_reactive("Scatter")
 
+    def make_mdi_layout(viewer):
+        class_name = viewer.__class__.__name__
+        title = TITLE_TRANSLATIONS.get(class_name, class_name)
+        return {"title": title, "width": 800, "height": 600}
+
+    def make_grid_layout(viewer_index):
+        return {"h": 18, "i": str(viewer_index), "moved": False, "w": 12, "x": 0, "y": 12 * viewer_index}
+
     view_type = solara.use_reactive("tabs")  # tabs, grid, mdi
-    mdi_layouts: Reactive[List[MdiWindow]] = solara.use_reactive([])
-    grid_layout: Reactive[List[Dict]] = solara.use_reactive([])
+    mdi_layouts = solara.use_reactive([
+        make_mdi_layout(viewer) for viewer in app.viewers
+    ])
+    grid_layout = solara.use_reactive([
+        make_grid_layout(index) for index in range(len(app.viewers))
+    ])
     mdi_header_size_index = solara.use_reactive(2)
 
     def add_data_viewer(type: str, data: glue.core.Data):
@@ -193,20 +205,11 @@ def GlueApp(app: gj.JupyterApplication):
         new_viewer_index = len(app.viewers) - 1
         grid_layout.value = [
             *grid_layout.value,
-            {
-                "h": 18,
-                "i": str(new_viewer_index),
-                "moved": False,
-                "w": 12,
-                "x": 0,
-                "y": 12 * new_viewer_index,
-            },
+            make_grid_layout(len(app.viewers)-1)
         ]
-        class_name = app.viewers[-1].__class__.__name__
-        title = TITLE_TRANSLATIONS.get(class_name, class_name)
         mdi_layouts.value = [
             *mdi_layouts.value,
-            {"title": title, "width": 800, "height": 600},
+            make_mdi_layout(app.viewers[-1])
         ]
         viewer_index.set(new_viewer_index)
 
